@@ -15,19 +15,25 @@ class GoogleAuthController extends Controller
 
     public function callback()
     {
-        $google_user = Socialite::driver('google')->user();
-        $user = User::where('email', $google_user->email)->first();
+        try {
+            $google_user = Socialite::driver('google')->user();
+            $user = User::where('email', $google_user->email)->first();
 
-        if($user) {
-            auth()->loginUsingId($user->id);
-        } else {
-            $new_user = User::create([
-                'name' => $google_user->name,
-                'email' => $google_user->email,
-                'password' => bcrypt(\Str::random(16))
-            ]);
+            if($user) {
+                auth()->loginUsingId($user->id);
+            } else {
+                $new_user = User::create([
+                    'name' => $google_user->name,
+                    'email' => $google_user->email,
+                    'password' => bcrypt(\Str::random(16))
+                ]);
 
-            auth()->loginUsingId($new_user->id);
+                auth()->loginUsingId($new_user->id);
+            }
+            
+            return redirect('/home');
+        } catch (\Exception $e) {
+            return 'error';
         }
     }
 }
