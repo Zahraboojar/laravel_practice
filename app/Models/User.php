@@ -45,4 +45,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function HasTwoFactorAuth($key): bool
+    {
+        return $this->two_factor_auth === $key;
+    }
 }
