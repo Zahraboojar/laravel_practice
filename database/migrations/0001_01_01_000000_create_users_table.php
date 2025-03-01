@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('tow_factor_auth', ['sms', 'off']);
+            $table->enum('two_factor_type', ['off', 'sms']);
             $table->string('phone_number')->nullable();
             $table->rememberToken();
             $table->timestamps();

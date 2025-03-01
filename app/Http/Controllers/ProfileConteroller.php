@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\VarDumper\VarDumper;
 
 class ProfileConteroller extends Controller
 {
@@ -23,15 +24,19 @@ class ProfileConteroller extends Controller
             'phone' => 'required_unless:type,off'
         ])) {
             if ($data['type'] === 'sms') {
-                //set tow factor
+                $request->user()->update([
+                    'two_factor_type' => 'sms'
+                ]);
+                dd($request->user()->two_factor_type);
             } else if ($data['type'] === 'off'){
                 $request->user()->update([
-                    'two_factor_auth' => 'off'
+                    'two_factor_type' => 'off'
                 ]);
-                
+                dd($request->user()->two_factor_type);
+                return redirect('/profile/twofactorauth');
             }
         } else {
-            return redirect('/profile/twoauthfactor');
+            
         }
         
     }
