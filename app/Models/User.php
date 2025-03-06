@@ -33,6 +33,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    public function activecode()
+    {
+        return $this->hasMany(Active_code::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
