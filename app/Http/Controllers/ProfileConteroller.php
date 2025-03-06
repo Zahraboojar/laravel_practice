@@ -24,15 +24,21 @@ class ProfileConteroller extends Controller
             'phone' => 'required_unless:type,off'
         ])) {
             if ($data['type'] === 'sms') {
+                if ($request->user()->phone !== $data['phone'] ) {
+                    $request->user()->update([
+                        'two_factor_type' => 'sms'
+                    ]);
+                    return redirect(route('two_factor_auth'));
+                } else {
+                    //
+                }
                 $request->user()->update([
                     'two_factor_type' => 'sms'
                 ]);
-                dd($request->user()->two_factor_type);
-            } else if ($data['type'] === 'off'){
+            } elseif ($data['type'] === 'off'){
                 $request->user()->update([
-                    'two_factor_type' => 'off'
+                    'two_factor_type' => 'sms'
                 ]);
-                dd($request->user()->two_factor_type);
                 return redirect('/profile/twofactorauth');
             }
         } else {
