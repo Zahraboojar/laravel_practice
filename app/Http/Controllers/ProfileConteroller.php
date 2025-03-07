@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Active_code;
 use Illuminate\Http\Request;
-use Symfony\Component\VarDumper\VarDumper;
+use function Laravel\Prompts\alert;
 
 class ProfileConteroller extends Controller
 {
@@ -28,9 +28,9 @@ class ProfileConteroller extends Controller
                 if ($request->user()->phone !== $data['phone'] ) {
                     $code = Active_code::generateCode(auth()->user());
 
-                    return $code;
+                    $request->session()->flash('phone', $data['phone']);
 
-                    return redirect(route('two_factor_auth'));
+                    return redirect(route('phone_verify'));
                 } else {
                     //
                 }
@@ -47,5 +47,43 @@ class ProfileConteroller extends Controller
             
         }
         
+    }
+
+    public function get_Phone_Verify(Request $request)
+    {
+        if (!$request->session()->has('phone')) {
+            return redirect(route('two_factor_auth'));
+        }
+
+        $request->session()->reflash();
+
+        return view('profile.phoneVerify');
+    }
+
+    public function post_Phone_Verify(Request $request)
+    {
+        $request->validate([
+            'token' => 'required'
+        ]);
+
+        if (!$request->session()->has('phone')) {
+            return redirect(route('two_factor_auth'));
+        }
+
+        $status = Active_code::verifyCode($request->token, $request->user());
+
+        if ($status) {
+            $request->user()->activecode()->delete();
+            $request->user()->update([
+                'phone_number' => $request->session()->get('phone'),
+                'two_factor_type' => 'sms'
+            ]);
+
+            alert('احراز هویت دو مرحله ای با موفقیت انجام شد');        
+        } else {
+            alert('عملیات ناموفق بود');
+        }
+
+        return redirect(route('two_factor_auth'));
     }
 }

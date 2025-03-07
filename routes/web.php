@@ -17,4 +17,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/profile',[App\Http\Controllers\ProfileConteroller::class, 'index'])->name('profile');
     Route::get('/profile/twofactorauth',[App\Http\Controllers\ProfileConteroller::class, 'two_factor_auth'])->name('two_factor_auth');
     Route::post('/profile/twofactorauthrequest',[App\Http\Controllers\ProfileConteroller::class, 'two_factor_auth_request'])->name('two_factor_auth_request');
+
+    Route::get('/profile/twofactorauth/phone',[App\Http\Controllers\ProfileConteroller::class, 'get_Phone_Verify'])->name('phone_verify');
+    Route::post('/profile/twofactorauth/phone',[App\Http\Controllers\ProfileConteroller::class, 'post_Phone_Verify']);
 });

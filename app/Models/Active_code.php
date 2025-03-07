@@ -46,4 +46,9 @@ class Active_code extends Model
     {
         return $user->activecode()->where('expired_at','>',now())->first();
     }
+
+    public function scopeVerifyCode($query, $token, $user): bool
+    {
+        return !! $user->activecode()->whereCode($token)->where('expired_at', '>', now())->first();
+    }
 }

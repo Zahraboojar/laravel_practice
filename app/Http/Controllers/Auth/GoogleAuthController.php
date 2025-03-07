@@ -34,7 +34,7 @@ class GoogleAuthController extends Controller
             
             return redirect('/home');
         } catch (\Exception $e) {
-            alert()->error('ورود با گوگل موفق نبود', 'شما ارور دارید')->persistent('بسیار خوب');
+            alert('ورود با گوگل موفق نبود');
             return redirect('/login');
         }
     }
