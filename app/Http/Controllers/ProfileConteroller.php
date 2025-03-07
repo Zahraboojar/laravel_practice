@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Active_code;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -25,9 +26,10 @@ class ProfileConteroller extends Controller
         ])) {
             if ($data['type'] === 'sms') {
                 if ($request->user()->phone !== $data['phone'] ) {
-                    $request->user()->update([
-                        'two_factor_type' => 'sms'
-                    ]);
+                    $code = Active_code::generateCode(auth()->user());
+
+                    return $code;
+
                     return redirect(route('two_factor_auth'));
                 } else {
                     //

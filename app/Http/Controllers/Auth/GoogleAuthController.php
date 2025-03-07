@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
+use function Laravel\Prompts\alert;
 
 class GoogleAuthController extends Controller
 {
@@ -33,7 +34,8 @@ class GoogleAuthController extends Controller
             
             return redirect('/home');
         } catch (\Exception $e) {
-            return 'error';
+            alert()->error('ورود با گوگل موفق نبود', 'شما ارور دارید')->persistent('بسیار خوب');
+            return redirect('/login');
         }
     }
 }
