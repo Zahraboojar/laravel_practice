@@ -21,18 +21,16 @@ class Active_code extends Model
 
     public function scopeGenerateCode($query, $user)
     {
-        if($code = $this->getActiveCodeForUser($user)) {
-            $code->code;
-        } else {
-            do {
-                $code = mt_rand(100000,999999);
-            } while ($this->checkCodeIsUnique($user, $code));
+        $user->activecode()->delete();
 
-            $user->activecode()->create([
-                'code' => $code,
-                'expired_at' => now()->addMinutes(10)
-            ]);
-        }
+        do {
+            $code = mt_rand(100000,999999);
+        } while ($this->checkCodeIsUnique($user, $code));
+
+        $user->activecode()->create([
+            'code' => $code,
+            'expired_at' => now()->addMinutes(10)
+        ]);
 
         return $code;
     }

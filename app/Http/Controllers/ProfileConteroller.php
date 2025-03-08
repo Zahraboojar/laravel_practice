@@ -22,7 +22,7 @@ class ProfileConteroller extends Controller
     {
         if ($data = $request->validate([
             'type' => 'required|in:sms,off',
-            'phone' => 'required_unless:type,off'
+            'phone' => 'required_unless:type,off|unique:users,phone_number'
         ])) {
             if ($data['type'] === 'sms') {
                 if ($request->user()->phone !== $data['phone'] ) {
@@ -39,7 +39,7 @@ class ProfileConteroller extends Controller
                 ]);
             } elseif ($data['type'] === 'off'){
                 $request->user()->update([
-                    'two_factor_type' => 'sms'
+                    'two_factor_type' => 'off'
                 ]);
                 return redirect('/profile/twofactorauth');
             }

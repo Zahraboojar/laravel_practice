@@ -13,6 +13,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/auth/google', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirect'])->name('auth.google');
 Route::get('/auth/google/callback', [App\Http\Controllers\Auth\GoogleAuthController::class, 'callback']);
 
+Route::get('/auth/token', [App\Http\Controllers\Auth\AuthTokenController::class, 'getToken'])->name('2fa.token');
+Route::post('/auth/token', [App\Http\Controllers\Auth\AuthTokenController::class, 'postToken']);
+
 Route::middleware('auth')->group(function() {
     Route::get('/profile',[App\Http\Controllers\ProfileConteroller::class, 'index'])->name('profile');
     Route::get('/profile/twofactorauth',[App\Http\Controllers\ProfileConteroller::class, 'two_factor_auth'])->name('two_factor_auth');
