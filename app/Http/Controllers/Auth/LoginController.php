@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Active_code;
+use App\Traits\TwoFactorAuthenticate;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -20,7 +21,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, TwoFactorAuthenticate;
 
     /**
      * Where to redirect users after login.
@@ -42,24 +43,6 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->two_factor_type !== 'off') {
-            auth()->logout();
-
-            $request->session()->flash('auth',[
-                'user_id' => $user->id,
-                'using_sms' => false,
-                'remember' => $request->has('remember')
-            ]);
-
-            if($user->two_factor_type === 'sms') {
-                $code = Active_code::generateCode($user);
-
-                $request->session()->push('auth.using_sms', true);
-
-                return redirect(route('2fa.token'));
-            }
-        }
-
-        return 'false';
+        return $this->loggedin($request, $user);
     }
 }
