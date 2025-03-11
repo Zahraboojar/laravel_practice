@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Active_code;
+use App\Rules\Recaptcha;
 use App\Traits\TwoFactorAuthenticate;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -51,7 +52,7 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'required',
+            'g-recaptcha-response' => ['required', new Recaptcha],
         ]);
     }
 }

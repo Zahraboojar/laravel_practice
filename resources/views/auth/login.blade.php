@@ -47,8 +47,13 @@
                         </div>
 
                         <div class="form-group col-md-2 offset-md-4 mb-4">
-                            <div class="g-recaptcha" data-sitekey="{{ env('GOOGLR_RECAPTCH_SITE_KEY') }}"></div>
-                            </div>
+                            <div class="g-recaptcha @error('g-recaptcha-response') is-invalid @enderror" data-sitekey="{{ env('GOOGLE_RECAPTCH_SITE_KEY') }}"></div>
+                            @error('g-recaptcha-response')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                        </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
