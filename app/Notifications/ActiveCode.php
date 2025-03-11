@@ -12,12 +12,14 @@ class ActiveCode extends Notification
     use Queueable;
 
     public $code;
+    public $phonenumber;
     /**
      * Create a new notification instance.
      */
-    public function __construct($code)
+    public function __construct($code, $phonenumber)
     {
         $this->code = $code;
+        $this->phonenumber =$phonenumber;
     }
 
     /**
@@ -30,26 +32,11 @@ class ActiveCode extends Notification
         return [GhasedakChannel::class];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail(object $notifiable): MailMessage
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
+    public function toGhasedakSms($notifiable)
     {
         return [
-            //
+            'text' => 'ghasedak massage \n',
+            'number' => $this->phonenumber,
         ];
     }
 }

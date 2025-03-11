@@ -31,7 +31,7 @@ class ProfileConteroller extends Controller
 
                     $request->session()->flash('phone', $data['phone']);
 
-                    $request->user()->notify(new ActiveCode($code));
+                    $request->user()->notify(new ActiveCode($code, $data['phone']));
 
                     return redirect(route('phone_verify'));
                 } else {
@@ -42,7 +42,8 @@ class ProfileConteroller extends Controller
                 ]);
             } elseif ($data['type'] === 'off'){
                 $request->user()->update([
-                    'two_factor_type' => 'off'
+                    'two_factor_type' => 'off',
+                    'phone_number' => ''
                 ]);
                 return redirect('/profile/twofactorauth');
             }
