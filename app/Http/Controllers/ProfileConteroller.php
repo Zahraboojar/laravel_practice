@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Active_code;
+use App\Notifications\ActiveCode;
 use Illuminate\Http\Request;
 use function Laravel\Prompts\alert;
 
@@ -29,6 +30,8 @@ class ProfileConteroller extends Controller
                     $code = Active_code::generateCode(auth()->user());
 
                     $request->session()->flash('phone', $data['phone']);
+
+                    $request->user()->notify(new ActiveCode($code));
 
                     return redirect(route('phone_verify'));
                 } else {
