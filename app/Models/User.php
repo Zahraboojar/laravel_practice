@@ -41,6 +41,16 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Active_code::class);
     }
+    
+    public function isSuperUser()
+    {
+        return $this->is_superuser;
+    }
+
+    public function isStaffUser()
+    {
+        return $this->is_staff;
+    }
 
     /**
      * Get the attributes that should be cast.
