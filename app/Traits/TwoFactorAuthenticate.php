@@ -27,6 +27,6 @@ trait TwoFactorAuthenticate
             }
         }
 
-        return 'false';
+        return ;
     }
 }

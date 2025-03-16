@@ -26,11 +26,13 @@ class Recaptcha implements ValidationRule
             ]);
 
             $response = json_decode($response->getBody());
-            dd($response);
-
+            if ($response->success === false) {
+                $fail('reCAPTCHA verification failed due to an error.');
+            }
 
         } catch (\Exception $e) {
             //log error
+            $fail('reCAPTCHA verification failed due to an error.');
         }
     }
 }
