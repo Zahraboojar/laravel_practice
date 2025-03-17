@@ -30,6 +30,9 @@ class GoogleAuthController extends Controller
                     'password' => bcrypt(\Str::random(16))
                 ]);
             }
+            if(! $user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
+            }
 
             auth()->loginUsingId($user->id);
             
