@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Permission;
 use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -21,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('user_edit', [UserPolicy::class, 'user_edit']);
+        // Gate::define('user_edit', [UserPolicy::class, 'user_edit']);
+        foreach (Permission::all() as $permission)  {
+            Gate::define($permission->name, function ($user) use ($permission) {
+                return $user->hasPermission($permission);
+            });
+        }
     }
 }

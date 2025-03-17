@@ -14,7 +14,7 @@ class UserPolicy
         //
     }
 
-    public function user_edit(User $user, User $currentuser) {
-        return $user->id === $currentuser->id;
-    }
+    // public function user_edit(User $user, User $currentuser) {
+    //     return $user->id === $currentuser->id;
+    // }
 }

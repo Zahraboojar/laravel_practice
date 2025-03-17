@@ -13,11 +13,11 @@ class Role extends Model
 
     public function permission()
     {
-        return $this->belongsTo(Permission::class);
+        return $this->belongsToMany(Permission::class);
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 }
