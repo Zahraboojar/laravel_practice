@@ -69,4 +69,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->two_factor_auth === $key;
     }
+
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }
