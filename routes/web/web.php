@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    auth()->loginUsingId(1);
+    // auth()->loginUsingId(1);
 
-    $user = User::find(2);
-    dd (Gate::allows('user_edit', $user));
-    // return view('welcome');
+    // $user = User::find(2);
+    // dd (Gate::allows('user_edit', $user));
+    return view('welcome');
 });
 
 Auth::routes(['verify' => true]);
