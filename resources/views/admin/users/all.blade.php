@@ -10,14 +10,17 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">جدول ریسپانسیو</h3>
+                <h3 class="card-title">کاربران</h3>
 
-                <div class="card-tools">
+                <div class="card-tools d-flex">
                   <div class="input-group input-group-sm" style="width: 150px;">
+                    
                     <input type="text" name="table_search" class="form-control float-right" placeholder="جستجو">
-
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                    <div class="btn-group-sm mr-2">
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-success">افزودن</a>
                     </div>
                   </div>
                 </div>
