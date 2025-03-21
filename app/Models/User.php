@@ -89,6 +89,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->permission->contains('name', $permission->name) || $this->hasRole($permission->role);
     }
-
-    
 }

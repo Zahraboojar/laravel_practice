@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    auth()->loginUsingId(1);
+    // auth()->loginUsingId(1);
 
-    $user = User::find(1);
-    dd (Gate::allows('user_edit', $user));
+    // $user = User::find(1);
+    // dd (Gate::allows('user_edit', $user));
     
     return view('welcome');
 });
