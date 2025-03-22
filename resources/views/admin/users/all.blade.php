@@ -49,9 +49,14 @@
                         <span class="badge badge-danger">تایید نشده</span>
                         @endif
                       </td>
-                      <td>
+                      <td class="d-flex">
                         <a href="{{ route('admin.users.edit', ['user' => $user_item->id]) }}" class="btn btn-sm btn-warning">ویرایش</a>
-                        <a href="" class="btn btn-sm btn-danger">حذف</a>
+                        <form method="post" action="{{ route('admin.users.destroy', ['user' => $user_item->id]) }}">
+                        @csrf
+                        @method('DELETE')  
+                        <button type="submit" class="btn btn-sm btn-danger mr-1">حذف</button>
+                        </form>
+                        
                       </td>
                     </tr>
                     @endforeach
