@@ -50,7 +50,7 @@
                         @endif
                       </td>
                       <td>
-                        <a href="" class="btn btn-sm btn-warning">ویرایش</a>
+                        <a href="{{ route('admin.users.edit', ['user' => $user_item->id]) }}" class="btn btn-sm btn-warning">ویرایش</a>
                         <a href="" class="btn btn-sm btn-danger">حذف</a>
                       </td>
                     </tr>
