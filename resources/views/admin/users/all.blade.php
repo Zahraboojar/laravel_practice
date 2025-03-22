@@ -61,8 +61,13 @@
                     </tr>
                     @endforeach
                     
-                </tbody></table>
+                </tbody>
+              </table>
+              <div class="card-footer">
+                {{ $users->render() }}
               </div>
+              </div>
+              
             </div>
           </div>
         </div>
