@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,3 +13,4 @@ Route::get('/', function () {
 // });
 
 Route::resource('users', UserController::class);
+Route::resource('ptoducts', ProductController::class);
