@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,4 @@ Route::middleware('auth')->group(function() {
 
 Route::get('products' , [App\Http\Controllers\ProductController::class, 'index']);
 Route::get('products/{product}' , [App\Http\Controllers\ProductController::class, 'single']);
+Route::post('comments' , [HomeController::class, 'comment'])->name('send.comment');
