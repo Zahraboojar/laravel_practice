@@ -13,4 +13,4 @@ Route::get('/', function () {
 // });
 
 Route::resource('users', UserController::class);
-Route::resource('ptoducts', ProductController::class)->except('show');
+Route::resource('products', ProductController::class)->except('show');

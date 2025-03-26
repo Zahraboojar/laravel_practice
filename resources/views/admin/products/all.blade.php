@@ -18,6 +18,9 @@
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                                 </div>
+                                <div class="btn-group-sm mr-2">
+                                <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm">افزودن</a>
+                                </div>
                             </div>
                         </form>
                         <div class="btn-group-sm mr-1">
@@ -47,16 +50,12 @@
                                     <td>{{ $product->inventory }}</td>
                                     <td>{{ $product->view_count }}</td>
                                     <td class="d-flex">
-                                        @can('delete-product')
-                                            <form action="{{ route('admin.products.destroy' , $product->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger ml-1">حذف</button>
-                                            </form>
-                                        @endcan
-                                        @can('edit-product')
-                                            <a href="{{ route('admin.products.edit' , $product->id) }}" class="btn btn-sm btn-primary ml-1">ویرایش</a>
-                                        @endcan
+                                        <form action="{{ route('admin.products.destroy' , $product->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger ml-1">حذف</button>
+                                        </form>
+                                        <a href="{{ route('admin.products.edit' , $product->id) }}" class="btn btn-sm btn-primary ml-1">ویرایش</a>
                                     </td>
                                 </tr>
                             @endforeach

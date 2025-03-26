@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            @include('admin.layouts.errors')
+            @include('admin.layouts.error')
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">فرم ایجاد محصول</h3>

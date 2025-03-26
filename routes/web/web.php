@@ -31,3 +31,6 @@ Route::middleware('auth')->group(function() {
     Route::get('/profile/twofactorauth/phone',[App\Http\Controllers\ProfileConteroller::class, 'get_Phone_Verify'])->name('phone_verify');
     Route::post('/profile/twofactorauth/phone',[App\Http\Controllers\ProfileConteroller::class, 'post_Phone_Verify']);
 });
+
+Route::get('products' , [App\Http\Controllers\ProductController::class, 'index']);
+Route::get('products/{product}' , [App\Http\Controllers\ProductController::class, 'single']);
