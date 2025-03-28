@@ -96,7 +96,9 @@
                         <div class="card-header d-flex justify-content-between">
                             <div class="commenter">
                                 <span>{{ $comment->user->name }}</span>
-                                <span class="text-muted">- دو دقیقه قبل</span>
+                                <span class="text-muted">{{ jdate($comment->created_at)->ago()}}
+                                <!-- ->format('%A, %d %B %y') -->
+                                 </span>
                             </div>
                             @auth
                                 <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="{{ $comment->id }}">پاسخ به نظر</span>
