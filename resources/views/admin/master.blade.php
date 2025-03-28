@@ -105,5 +105,6 @@
 <script src="/plugins/select2/select2.full.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+@yield('script')
 </body>
 </html>

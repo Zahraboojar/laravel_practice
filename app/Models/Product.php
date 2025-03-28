@@ -19,4 +19,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class);
+    }
 }

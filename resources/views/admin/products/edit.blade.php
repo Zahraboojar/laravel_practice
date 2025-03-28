@@ -5,13 +5,13 @@
         <li class="breadcrumb-item active">ویرایش محصول</li>
     @endslot
 
-    @slot('script')
+    @section('script')
         <script>
             $('#categories').select2({
                 'placeholder' : 'دسترسی مورد نظر را انتخاب کنید'
             })
         </script>
-    @endslot
+    @endsection
 
     <div class="row">
         <div class="col-lg-12">

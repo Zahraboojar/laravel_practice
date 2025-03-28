@@ -41,9 +41,11 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required',
             'inventory' => 'required',
+            'categories' => 'required',
         ]);
 
-        auth()->user()->products()->create($validData);
+        $product = auth()->user()->products()->create($validData);
+        $product->categories()->sync($validData['categories']);
 
         return redirect(route('admin.products.index'));
     }
@@ -66,9 +68,11 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required',
             'inventory' => 'required',
+            'categories' => 'required',
         ]);
 
         $product->update($validData);
+        $product->categories()->sync($validData['categories']);
 
         return redirect(route('admin.products.index'));
     }
