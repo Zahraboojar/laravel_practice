@@ -30,6 +30,8 @@
   <link rel="stylesheet" href="/dist/css/bootstrap-rtl.min.css">
   <!-- template rtl version -->
   <link rel="stylesheet" href="/dist/css/custom-style.css">
+  <link rel="stylesheet" href="/plugins/select2/select2.css">
+  @yield('head')
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -100,6 +102,7 @@
 <script src="/dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/dist/js/pages/dashboard.js"></script>
+<script src="/plugins/select2/select2.full.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 </body>
