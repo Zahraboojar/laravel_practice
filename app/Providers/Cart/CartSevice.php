@@ -38,7 +38,7 @@ class CartSevice
         if ($key instanceof Model) {
             return ! is_null(
                 $this->cart->where('subject_id', $key->id)->where('subject_type', get_class($key))
-            );;
+            );
         }
 
         return ! is_null(
@@ -51,11 +51,24 @@ class CartSevice
             ? $this->cart->where('subject_id', $key->id)->where('subject_type', get_class($key))->first()
             : $this->cart->firstWhere('id', $key);
 
-        return $item;
+        return $this->withRelationshipIfExist($item);
     }
 
     public function all()
     {
         return $this->cart;
+    }
+
+    protected function withRelationshipIfExist($item)
+    {
+        if (isset($item['subject_id']) && isset($item['subject_type'])) {
+            $class = $item['subject_type'];
+            $subject = (new $class())->find($item['subject_id']);
+
+            dd($subject);
+        }
+
+        dd($item);
+
     }
 }
