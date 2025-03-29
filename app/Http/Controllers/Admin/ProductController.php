@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attribute;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -42,10 +43,13 @@ class ProductController extends Controller
             'price' => 'required',
             'inventory' => 'required',
             'categories' => 'required',
+            'attributes' => 'required',
         ]);
 
         $product = auth()->user()->products()->create($validData);
         $product->categories()->sync($validData['categories']);
+
+        $this->attachAttributesToProduct($product, $validData);
 
         return redirect(route('admin.products.index'));
     }
@@ -55,6 +59,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        // return $product->attributes[0]->pivot->value;
+        // return $product->attributes[0]->pivot->product;
+        return $product->attributes[0]->pivot->attribute;
         return view('admin.products.edit' , compact('product'));
     }
 
@@ -69,10 +76,16 @@ class ProductController extends Controller
             'price' => 'required',
             'inventory' => 'required',
             'categories' => 'required',
+            'attributes' => 'required',
         ]);
 
         $product->update($validData);
         $product->categories()->sync($validData['categories']);
+
+        //remove all attribute relation
+        $product->attributes()->detach();
+
+        $this->attachAttributesToProduct($product, $validData);
 
         return redirect(route('admin.products.index'));
     }
@@ -85,5 +98,23 @@ class ProductController extends Controller
         $product->delete();
 
         return back();
+    }
+
+    protected function attachAttributesToProduct(Product $product, array $validData): void
+    {
+        $attributes = collect($validData['attributes']);
+        $attributes->each(function ($item) use ($product) {
+            if (is_null($item['name']) || is_null($item['value'])) return;
+
+            $attr = Attribute::firstOrCreate(
+                ['name' => $item['name']]
+            );
+
+            $attr_value = $attr->values()->firstOrCreate(
+                ['value' => $item['value']]
+            );
+
+            $product->attributes()->attach($attr->id, ['value_id' => $attr_value->id]);
+        });
     }
 }

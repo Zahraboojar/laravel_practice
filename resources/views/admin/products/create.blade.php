@@ -6,8 +6,6 @@
     @endslot
 
     @section('script')
-    <script>
-            alert('dhdjkdfbhdkjgmd');</script>
         <script>
 
             $('#categories').select2({
