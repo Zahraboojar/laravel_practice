@@ -56,7 +56,12 @@
                     <div class="card-header">
                         {{ $product->title }}
                     </div>
-
+                    <div class="card-header">
+                        <form method="post" action="{{ route('cart.add', $product->id) }}">
+                            @csrf
+                            <button type="submit">add to cart</button>
+                        </form>
+                    </div>
                     <div class="card-body">
                         {{ $product->description }}
                     </div>

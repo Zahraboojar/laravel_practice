@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthTokenController;
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
-use App\Models\User;
-use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileConteroller;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,23 +19,25 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/auth/google', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirect'])->name('auth.google');
-Route::get('/auth/google/callback', [App\Http\Controllers\Auth\GoogleAuthController::class, 'callback']);
+Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
-Route::get('/auth/token', [App\Http\Controllers\Auth\AuthTokenController::class, 'getToken'])->name('2fa.token');
-Route::post('/auth/token', [App\Http\Controllers\Auth\AuthTokenController::class, 'postToken']);
+Route::get('/auth/token', [AuthTokenController::class, 'getToken'])->name('2fa.token');
+Route::post('/auth/token', [AuthTokenController::class, 'postToken']);
 
 Route::middleware('auth')->group(function() {
-    Route::get('/profile',[App\Http\Controllers\ProfileConteroller::class, 'index'])->name('profile');
-    Route::get('/profile/twofactorauth',[App\Http\Controllers\ProfileConteroller::class, 'two_factor_auth'])->name('two_factor_auth');
-    Route::post('/profile/twofactorauthrequest',[App\Http\Controllers\ProfileConteroller::class, 'two_factor_auth_request'])->name('two_factor_auth_request');
+    Route::get('/profile',[ProfileConteroller::class, 'index'])->name('profile');
+    Route::get('/profile/twofactorauth',[ProfileConteroller::class, 'two_factor_auth'])->name('two_factor_auth');
+    Route::post('/profile/twofactorauthrequest',[ProfileConteroller::class, 'two_factor_auth_request'])->name('two_factor_auth_request');
 
-    Route::get('/profile/twofactorauth/phone',[App\Http\Controllers\ProfileConteroller::class, 'get_Phone_Verify'])->name('phone_verify');
-    Route::post('/profile/twofactorauth/phone',[App\Http\Controllers\ProfileConteroller::class, 'post_Phone_Verify']);
+    Route::get('/profile/twofactorauth/phone',[ProfileConteroller::class, 'get_Phone_Verify'])->name('phone_verify');
+    Route::post('/profile/twofactorauth/phone',[ProfileConteroller::class, 'post_Phone_Verify']);
 });
 
-Route::get('products' , [App\Http\Controllers\ProductController::class, 'index']);
-Route::get('products/{product}' , [App\Http\Controllers\ProductController::class, 'single']);
+Route::get('products' , [ProductController::class, 'index']);
+Route::get('products/{product}' , [ProductController::class, 'single']);
 Route::post('comments' , [HomeController::class, 'comment'])->name('send.comment');
+
+Route::post('cart/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
