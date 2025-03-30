@@ -23,7 +23,7 @@ class CartSevice
                 'subject_id' => $obj->id,
                 'subject_type' => get_class($obj)
             ]);
-        } else {
+        } elseif (! isset($value['id'])) {
             $value = array_merge($value , [
                 'id' => Str::random(10)
             ]);
@@ -48,13 +48,13 @@ class CartSevice
         );
     }
 
-    public function get($key)
+    public function get($key, $withRelationShip = true)
     {
         $item = $key instanceof Model
                     ? $this->cart->where('subject_id' , $key->id)->where('subject_type' , get_class($key))->first()
                     : $this->cart->firstWhere('id' , $key);
 
-        return $this->withRelationshipIfExist($item);
+        return $withRelationShip ? $this->withRelationshipIfExist($item) : $item;
     }
 
     public function all()
@@ -65,6 +65,26 @@ class CartSevice
         });
 
         return $cart;
+    }
+
+    public function update($key, $option)
+    {
+        $item = collect($this->get($key, false));
+
+        if (is_numeric($option)) {
+            $item = $item->merge([
+                'quantity' => $item['quantity'] + $option
+            ]);
+        }
+
+        $this->put($item->toArray());
+    }
+
+    public function count($key)
+    {
+        if (! $this->has($key)) return 0;
+
+        return $this->get($key)['quantity'];
     }
 
     protected function withRelationshipIfExist($item)

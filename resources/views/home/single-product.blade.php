@@ -56,12 +56,14 @@
                     <div class="card-header">
                         {{ $product->title }}
                     </div>
+                    @if( App\Providers\Cart\Cart::count($product) < $product->inventory)
                     <div class="card-header">
                         <form method="post" action="{{ route('cart.add', $product->id) }}">
                             @csrf
                             <button type="submit">add to cart</button>
                         </form>
                     </div>
+                    @endif
                     <div class="card-body">
                         {{ $product->description }}
                     </div>
