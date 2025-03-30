@@ -3,6 +3,7 @@
 
 namespace App\Providers\Cart;
 
+use Cookie;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -14,7 +15,8 @@ class CartSevice
 
     public function __construct()
     {
-        $this->cart = session()->get($this->name) ?? collect([]);
+        $this->cart = collect(json_decode(request()->cookie($this->name), true)) ?? collect([]);
+        // $this->cart = session()->get($this->name) ?? collect([]);
     }
 
     public function put(array $value , $obj = null)
@@ -32,7 +34,8 @@ class CartSevice
         }
 
         $this->cart->put($value['id'] , $value);
-        session()->put($this->name, $this->cart);
+        // session()->put($this->name, $this->cart);
+        Cookie::queue($this->name, $this->cart->toJson(), 60 * 24 * 7);
 
         return $this;
     }
@@ -97,7 +100,8 @@ class CartSevice
                 return $key != $item['id'];
             });
 
-            session()->put($this->name, $this->cart);
+            // session()->put($this->name, $this->cart);
+            Cookie::queue($this->name, $this->cart->toJson(), 60 * 24 * 7);
 
             return true;
         }
@@ -114,7 +118,8 @@ class CartSevice
 
     public function instance($name)
     {
-        $this->cart = session()->get($name) ?? collect([]);
+        $this->cart = collect(json_decode(request()->cookie($name), true)) ?? collect([]);
+        // $this->cart = session()->get($name) ?? collect([]);
         $this->name = $name;
         return $this;
     }
