@@ -77,6 +77,10 @@ class CartSevice
             ]);
         }
 
+        if(is_array($option)) {
+            $item = $item->merge($option);
+        }
+
         $this->put($item->toArray());
     }
 

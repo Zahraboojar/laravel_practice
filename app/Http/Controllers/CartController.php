@@ -11,6 +11,7 @@ class CartController extends Controller
 
     public function cart()
     {
+        // dd(Cart::all());
         return view('home.cart');
     }
 
@@ -31,5 +32,28 @@ class CartController extends Controller
         }
 
         return 'ok';
+    }
+
+    public function quantityChange(Request $request)
+    {
+        $data = $request->validate([
+            'quantity' => 'required',
+            'id' => 'required'
+        ]);
+
+        if(Cart::has($data['id'])) {
+            $product = Cart::get($data['id']);
+
+            if ($data['quantity'] < $product['product']->inventory) {
+                Cart::update($data['id'], [
+                    'quantity' => $data['quantity']
+                ]);
+
+                return response(['status' => 'success']);
+            }
+        }
+
+        return response(['status' => 'error'], 404);
+
     }
 }
