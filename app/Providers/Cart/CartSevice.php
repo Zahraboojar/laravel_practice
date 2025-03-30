@@ -84,6 +84,25 @@ class CartSevice
         $this->put($item->toArray());
     }
 
+    public function delete($key)
+    {
+        if(Cart::has($key)) {
+            $this->cart = $this->cart->filter(function($item) use ($key) {
+                if ($key instanceof Model) {
+                    return ($item['subject_id'] === $key['id'] && $item['subject_type'] === get_class($key));
+                }
+
+                return $key != $item['id'];
+            });
+
+            session()->put('cart', $this->cart);
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function count($key)
     {
         if (! $this->has($key)) return 0;

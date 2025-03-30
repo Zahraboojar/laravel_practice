@@ -56,4 +56,11 @@ class CartController extends Controller
         return response(['status' => 'error'], 404);
 
     }
+
+    public function deleteProduct($id)
+    {
+        Cart::delete($id);
+
+        return back();
+    }
 }

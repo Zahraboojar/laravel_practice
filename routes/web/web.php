@@ -45,3 +45,4 @@ Route::post('cart/add/{product}', [CartController::class, 'addToCart'])->name('c
 Route::get('cart', [CartController::class, 'cart']);
 
 Route::patch('/cart/quantity/change', [CartController::class, 'quantityChange']);
+Route::delete('/cart/delete/{cart}', [CartController::class, 'deleteProduct'])->name('cart.delete.item');
