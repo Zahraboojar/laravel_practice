@@ -10,9 +10,11 @@ class CartSevice
 {
     protected $cart;
 
+    public $name = 'cart';
+
     public function __construct()
     {
-        $this->cart = session()->get('cart') ?? collect([]);
+        $this->cart = session()->get($this->name) ?? collect([]);
     }
 
     public function put(array $value , $obj = null)
@@ -30,7 +32,7 @@ class CartSevice
         }
 
         $this->cart->put($value['id'] , $value);
-        session()->put('cart', $this->cart);
+        session()->put($this->name, $this->cart);
 
         return $this;
     }
@@ -95,7 +97,7 @@ class CartSevice
                 return $key != $item['id'];
             });
 
-            session()->put('cart', $this->cart);
+            session()->put($this->name, $this->cart);
 
             return true;
         }
@@ -108,6 +110,13 @@ class CartSevice
         if (! $this->has($key)) return 0;
 
         return $this->get($key)['quantity'];
+    }
+
+    public function instance($name)
+    {
+        $this->cart = session()->get($name) ?? collect([]);
+        $this->name = $name;
+        return $this;
     }
 
     protected function withRelationshipIfExist($item)

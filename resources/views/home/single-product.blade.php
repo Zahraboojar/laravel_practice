@@ -56,11 +56,19 @@
                     <div class="card-header">
                         {{ $product->title }}
                     </div>
-                    @if( App\Providers\Cart\Cart::count($product) < $product->inventory)
+                    @if( App\Providers\Cart\Cart::instance('cart')->count($product) < $product->inventory)
                     <div class="card-header">
-                        <form method="post" action="{{ route('cart.add', $product->id) }}">
+                        <form method="post" action="{{ route('cart.add', ['product' => $product->id]) }}?cart=cart">
                             @csrf
                             <button type="submit">add to cart</button>
+                        </form>
+                    </div>
+                    @endif
+                    @if( App\Providers\Cart\Cart::instance('cart2')->count($product) < $product->inventory)
+                    <div class="card-header">
+                        <form method="post" action="{{ route('cart.add', ['product' => $product->id]) }}?cart=cart2">
+                            @csrf
+                            <button type="submit">add to cart2</button>
                         </form>
                     </div>
                     @endif

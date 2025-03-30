@@ -43,6 +43,7 @@ Route::post('comments' , [HomeController::class, 'comment'])->name('send.comment
 Route::post('cart/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
 
 Route::get('cart', [CartController::class, 'cart']);
+Route::get('cart2', [CartController::class, 'cart2']);
 
 Route::patch('/cart/quantity/change', [CartController::class, 'quantityChange']);
 Route::delete('/cart/delete/{cart}', [CartController::class, 'deleteProduct'])->name('cart.delete.item');

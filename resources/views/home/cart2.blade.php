@@ -2,7 +2,7 @@
 
 @section('script')
 <script>
-        function changeQuantity(event, id , cartName = 'cart') {
+        function changeQuantity(event, id , cartName = 'cart2') {
             //
             $.ajaxSetup({
                 headers : {
@@ -50,7 +50,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach (App\Providers\Cart\Cart::instance('cart')->all() as $cart)
+                            @foreach (App\Providers\Cart\Cart::instance('cart2')->all() as $cart)
                                 @if (isset($cart['product']))
                                     <tr>
                                         <td class="p-4">
@@ -70,14 +70,14 @@
                                         </td>
                                         <td class="text-right font-weight-semibold align-middle p-4">{{ $cart['product']->price }} تومان</td>
                                         <td class="align-middle p-4">
-                                            <select onchange="changeQuantity(event, '{{ $cart['id'] }}' , 'cart')" name="" class="form-control text-center">
+                                            <select onchange="changeQuantity(event, '{{ $cart['id'] }}' , 'cart2')" name="" class="form-control text-center">
                                                 @foreach (range(1, $cart['product']->inventory) as $item)
                                                     <option value="{{ $item }}" {{ $cart['quantity'] == $item ? 'selected' : ''}}>{{ $item }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td class="text-right font-weight-semibold align-middle p-4">تومان {{ $cart['product']->price* $cart['quantity'] }}</td>
-                                        <form method="post" action="{{ route('cart.delete.item', $cart['id']) }}" id="delete_cart_{{ $cart['id'] }}">
+                                        <form method="post" action="{{ route('cart.delete.item', $cart['id']) }}?cart=cart2" id="delete_cart_{{ $cart['id'] }}">
                                             @csrf
                                             @method('delete')
                                         </form>

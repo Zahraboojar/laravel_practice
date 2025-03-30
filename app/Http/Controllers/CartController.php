@@ -15,14 +15,22 @@ class CartController extends Controller
         return view('home.cart');
     }
 
+    public function cart2()
+    {
+        return view('home.cart2');
+    }
+
     public function addToCart(Product $product)
     {
-        if (Cart::has($product)) {
-            if (Cart::count($product) < $product->inventory) {
-                Cart::update($product, 1);
+        $class_name = isset($_GET['cart']) ? $_GET['cart'] : 'cart';
+
+        $cart = Cart::instance($class_name);
+        if ($cart->has($product)) {
+            if ($cart->count($product) < $product->inventory) {
+                $cart->update($product, 1);
             }
         } else {
-            Cart::put(
+            $cart->put(
                 [
                     'quantity' => 1,
                     'price' => $product->price
@@ -38,14 +46,17 @@ class CartController extends Controller
     {
         $data = $request->validate([
             'quantity' => 'required',
-            'id' => 'required'
+            'id' => 'required',
+            'cart' => 'required'
         ]);
 
-        if(Cart::has($data['id'])) {
-            $product = Cart::get($data['id']);
+        $cart = Cart::instance($data['cart']);
+
+        if($cart->has($data['id'])) {
+            $product = $cart->get($data['id']);
 
             if ($data['quantity'] < $product['product']->inventory) {
-                Cart::update($data['id'], [
+                $cart->update($data['id'], [
                     'quantity' => $data['quantity']
                 ]);
 
@@ -59,7 +70,9 @@ class CartController extends Controller
 
     public function deleteProduct($id)
     {
-        Cart::delete($id);
+        $class_name = isset($_GET['cart']) ? $_GET['cart'] : 'cart';
+        
+        Cart::instance($class_name)->delete($id);
 
         return back();
     }
