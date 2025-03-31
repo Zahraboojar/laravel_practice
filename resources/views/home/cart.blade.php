@@ -109,7 +109,10 @@
                 </div>
 
                 <div class="float-left">
-                    <button type="button" class="btn btn-lg btn-primary mt-2">پرداخت</button>
+                <form method="post" action="/payment?cart=cart" id="payment_form">
+                        @csrf
+                    </form>
+                    <button onclick="document.getElementById('payment_form').submit()" class="btn btn-lg btn-primary mt-2">پرداخت</button>
                 </div>
 
             </div>
