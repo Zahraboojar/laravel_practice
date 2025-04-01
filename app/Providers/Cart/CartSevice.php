@@ -35,7 +35,7 @@ class CartSevice
 
         $this->cart->put($value['id'] , $value);
         // session()->put($this->name, $this->cart);
-        Cookie::queue($this->name, $this->cart->toJson(), 60 * 24 * 7);
+        $this->stroeCookie();
 
         return $this;
     }
@@ -101,7 +101,7 @@ class CartSevice
             });
 
             // session()->put($this->name, $this->cart);
-            Cookie::queue($this->name, $this->cart->toJson(), 60 * 24 * 7);
+            $this->stroeCookie();
 
             return true;
         }
@@ -124,6 +124,13 @@ class CartSevice
         return $this;
     }
 
+    public function flush()
+    {
+        $this->cart = collect([]);
+
+        return $this->stroeCookie();
+    }
+
     protected function withRelationshipIfExist($item)
     {
         if(isset( $item['subject_id'] ) && isset($item['subject_type']) ) {
@@ -140,5 +147,10 @@ class CartSevice
 
 
         return $item;
+    }
+
+    protected function stroeCookie()
+    {
+        Cookie::queue($this->name, $this->cart->toJson(), 60 * 24 * 7);
     }
 }

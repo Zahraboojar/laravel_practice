@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\AuthTokenController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileConteroller;
 use Illuminate\Support\Facades\Route;
@@ -49,4 +49,5 @@ Route::get('cart2', [CartController::class, 'cart2']);
 Route::patch('/cart/quantity/change', [CartController::class, 'quantityChange']);
 Route::delete('/cart/delete/{cart}', [CartController::class, 'deleteProduct'])->name('cart.delete.item');
 
-Route::post('payment', [OrderController::class, 'payment'])->middleware('auth');
+Route::post('payment', [PaymentController::class, 'payment'])->middleware('auth');
+Route::get('payment/callback', [PaymentController::class, 'callback'])->middleware('auth')->name('payment.callback');
