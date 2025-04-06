@@ -48,7 +48,7 @@ class PaymentController extends Controller
 
             $order->payments()->create([
                 'price' => $price,
-                'resnumber' => $resnumber
+                'restnumber' => $resnumber
             ]);
 
             $cart->flush();
